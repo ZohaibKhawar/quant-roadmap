@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Become a Quant: A Stage-by-Stage Roadmap</title>
+<meta name="description" content="A free roadmap to becoming a quant researcher, trader or developer: the maths, code and markets to learn, the projects to build, and how to get hired, with a practice problem at every stage.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e6efe0'/%3E%3Cpath d='M3 24l6-5 4 3 6-11 4 4 6-10' fill='none' stroke='%2312304a' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,700;1,400&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#route">Skip to the roadmap</a>
+
+<header class="hero">
+  <div class="hero-text">
+    <h1>How to become a quant</h1>
+    <p class="lede">Six stages through the maths, code, markets and interviews, with a problem at each one so you can tell whether you're ready to move on.</p>
+    <p class="hero-links"><a class="button" href="#route">Start the roadmap</a> <a href="#jobs">Compare the three jobs first</a></p>
+  </div>
+
+  <figure class="sim" aria-labelledby="sim-caption">
+    <canvas id="sim-canvas" width="1200" height="520" role="img" aria-label="Simulated random paths starting from the same point and spreading out over four years, with a line marking the hiring bar."></canvas>
+    <figcaption id="sim-caption">
+      <div class="sim-controls" id="sim-controls" hidden>
+        <label for="mu"><span>Drift <i>μ</i>: steady work <output id="mu-out" for="mu">0.6</output></span>
+          <input id="mu" type="range" min="0" max="2" step="0.1" value="0.6"></label>
+        <label for="sigma"><span>Noise <i>σ</i>: luck and timing <output id="sigma-out" for="sigma">1.0</output></span>
+          <input id="sigma" type="range" min="0.2" max="1.5" step="0.1" value="1"></label>
+        <button type="button" id="rerun" class="button quiet">Run new paths</button>
+      </div>
+      <p class="sim-result" id="sim-result" aria-live="polite"></p>
+      <p class="sim-note">Each line is one random walk. Those that finish above the bar are drawn darker. This is a toy model and not your real odds, but it's the kind of thing you'll be able to derive yourself after stage 2.</p>
+    </figcaption>
+  </figure>
+</header>
+
+<main>
+<section id="jobs" class="band" aria-labelledby="jobs-h">
+  <h2 id="jobs-h">Three jobs share the title</h2>
+  <p class="intro">"Quant" means someone who uses maths and code to make decisions in markets. The day-to-day work is very different depending on the seat. Pick one and the roadmap will mark what's core for it, or leave it on all three if you aren't sure yet.</p>
+
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Comparison of quant roles">
+  <table class="jobs">
+    <thead>
+      <tr>
+        <td></td>
+        <th scope="col">Quant researcher</th>
+        <th scope="col">Quant trader</th>
+        <th scope="col">Quant developer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row">The work</th>
+        <td>Finds patterns in data that predict prices, then tests whether they survive costs and fresh data.</td>
+        <td>Runs and adjusts strategies live, prices risk and makes fast calls when markets move.</td>
+        <td>Builds the trading systems, data pipelines and research tools everything else runs on.</td></tr>
+      <tr><th scope="row">You'd like it if</th>
+        <td>You can stay with one hard question for months, knowing most ideas will fail.</td>
+        <td>You enjoy games, quick estimates and being accountable for results every day.</td>
+        <td>You care about why code is slow and enjoy making systems reliable.</td></tr>
+      <tr><th scope="row">Usual education</th>
+        <td>Often a master's or PhD in a maths-heavy field. The most credential-heavy of the three.</td>
+        <td>Bachelor's or master's in a quantitative field. Many firms hire straight from undergrad.</td>
+        <td>Computer science or similar at bachelor's or master's level. A PhD is rarely needed.</td></tr>
+      <tr><th scope="row">Interviews test</th>
+        <td>Probability, statistics, machine learning, coding and your past research.</td>
+        <td>Probability, mental maths, betting and market-making games.</td>
+        <td>Algorithms, C++ or another core language, operating systems and system design.</td></tr>
+      <tr class="role-picks"><td></td>
+        <td><button type="button" class="button quiet" data-pick="r">Follow the researcher route</button></td>
+        <td><button type="button" class="button quiet" data-pick="t">Follow the trader route</button></td>
+        <td><button type="button" class="button quiet" data-pick="d">Follow the developer route</button></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="aside"><strong>There are other doors, too.</strong> Risk and model validation teams at banks, derivatives pricing ("strats") desks, data engineering at a fund and systematic asset managers all use the same skills. Many of them hire more widely, and some people move from them to the seats above.</p>
+</section>
+
+<div class="route" id="route">
+  <aside class="rail" aria-label="Roadmap controls">
+    <fieldset class="roles" id="role-picker" hidden>
+      <legend>Show the route for</legend>
+      <label><input type="radio" name="role" value="all" checked> All three</label>
+      <label><input type="radio" name="role" value="r"> Researcher</label>
+      <label><input type="radio" name="role" value="t"> Trader</label>
+      <label><input type="radio" name="role" value="d"> Developer</label>
+    </fieldset>
+    <p class="progress" id="progress" hidden aria-live="polite"></p>
+    <nav aria-label="Stages">
+      <ol class="stage-nav">
+        <li><a href="#s1">Maths foundations <span class="count" data-count="s1"></span></a></li>
+        <li><a href="#s2">Probability and statistics <span class="count" data-count="s2"></span></a></li>
+        <li><a href="#s3">Programming <span class="count" data-count="s3"></span></a></li>
+        <li><a href="#s4">Markets and models <span class="count" data-count="s4"></span></a></li>
+        <li><a href="#s5">Proof of work <span class="count" data-count="s5"></span></a></li>
+        <li><a href="#s6">Getting hired <span class="count" data-count="s6"></span></a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <div class="stages">
+    <h2 class="route-title">The roadmap</h2>
+    <p class="intro">Do the stages roughly in order, though stages 1 to 4 overlap in practice. Tick things off as you go; your progress stays in this browser. Time estimates are rough and assume steady part-time study alongside school or work.</p>
+
+    <section class="stage" id="s1" aria-labelledby="s1-h">
+      <p class="stage-num" aria-hidden="true">1</p>
+      <h3 id="s1-h">Maths foundations</h3>
+      <p class="stage-meta">About 3 to 6 months. Skip what your degree already covered.</p>
+      <p>Everything later is written in this language. You don't need to be a mathematician, but you do need to be comfortable reading a formula and working out what it's saying.</p>
+      <ul class="checks">
+        <li data-r="2" data-t="2" data-d="1"><label><input type="checkbox" id="m-calc"><span>Calculus in one and several variables: derivatives, integrals, Taylor series, gradients and Lagrange multipliers</span></label></li>
+        <li data-r="2" data-t="1" data-d="1"><label><input type="checkbox" id="m-linalg"><span>Linear algebra: matrix operations, eigenvalues, singular value decomposition and least squares</span></label></li>
+        <li data-r="2" data-t="1" data-d="0"><label><input type="checkbox" id="m-proof"><span>Proofs: read and write simple ones using induction and contradiction</span></label></li>
+        <li data-r="2" data-t="0" data-d="1"><label><input type="checkbox" id="m-opt"><span>Optimisation: convexity, gradient descent and constrained problems</span></label></li>
+        <li data-r="1" data-t="2" data-d="0"><label><input type="checkbox" id="m-mental"><span>Start mental arithmetic now: five minutes a day of fast multiplication and fractions</span></label></li>
+      </ul>
+      <h4>Where to learn it</h4>
+      <ul class="res">
+        <li><a href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/">MIT 18.06 Linear Algebra</a>, Gilbert Strang's free lecture course</li>
+        <li><a href="https://www.3blue1brown.com/topics/linear-algebra">Essence of Linear Algebra</a>, free videos that build the geometric picture</li>
+        <li><a href="https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/">MIT 18.02SC Multivariable Calculus</a>, a free self-study course</li>
+        <li><a href="https://richardhammack.github.io/BookOfProof/">Book of Proof</a> by Richard Hammack, free online</li>
+        <li><a href="https://arithmetic.zetamac.com/">Zetamac</a>, the arithmetic drill interview candidates use</li>
+      </ul>
+      <details class="gate">
+        <summary><span class="gate-label">Ready to move on?</span> Two assets have the covariance matrix [2 1; 1 2]. Find the eigenvalues. Which unit-length portfolio has the lowest variance?</summary>
+        <div class="gate-answer">
+          <p>Solve (2 − <i>λ</i>)² − 1 = 0, which gives <i>λ</i> = 3 and <i>λ</i> = 1.</p>
+          <p>The lowest-variance direction is the eigenvector for <i>λ</i> = 1: (1, −1)/√2, long one asset and short the other, with variance 1. The direction (1, 1)/√2 holds both and has variance 3. The two assets move together, so taking opposite sides cancels the movement they share.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="stage" id="s2" aria-labelledby="s2-h">
+      <p class="stage-num" aria-hidden="true">2</p>
+      <h3 id="s2-h">Probability and statistics</h3>
+      <p class="stage-meta">About 4 to 8 months. Give this stage the most time.</p>
+      <p>This is the core of the job and of most interviews. Learn it by solving a lot of problems, since watching lectures alone won't make it stick.</p>
+      <ul class="checks">
+        <li data-r="2" data-t="2" data-d="1"><label><input type="checkbox" id="p-basic"><span>Counting, conditional probability and Bayes' rule</span></label></li>
+        <li data-r="2" data-t="2" data-d="1"><label><input type="checkbox" id="p-rv"><span>Random variables, linearity of expectation, variance, covariance and the common distributions</span></label></li>
+        <li data-r="2" data-t="2" data-d="1"><label><input type="checkbox" id="p-clt"><span>The law of large numbers and the central limit theorem, including when they fail</span></label></li>
+        <li data-r="2" data-t="2" data-d="0"><label><input type="checkbox" id="p-markov"><span>Markov chains, martingales and first-step analysis</span></label></li>
+        <li data-r="2" data-t="1" data-d="1"><label><input type="checkbox" id="p-infer"><span>Estimation: maximum likelihood, confidence intervals, hypothesis tests and what a p-value does not tell you</span></label></li>
+        <li data-r="2" data-t="1" data-d="0"><label><input type="checkbox" id="p-reg"><span>Linear regression in depth: assumptions, collinearity, residuals and how to tell it has gone wrong</span></label></li>
+        <li data-r="2" data-t="1" data-d="0"><label><input type="checkbox" id="p-ts"><span>Time series: autocorrelation, stationarity, ARMA models and volatility clustering</span></label></li>
+        <li data-r="2" data-t="2" data-d="1"><label><input type="checkbox" id="p-mult"><span>Multiple testing and overfitting: why the best of many backtests looks better than it is</span></label></li>
+      </ul>
+      <h4>Where to learn it</h4>
+      <ul class="res">
+        <li><a href="https://stat110.hsites.harvard.edu/">Harvard Stat 110</a>, Joe Blitzstein's free probability course, with lectures and problems</li>
+        <li><a href="http://probabilitybook.net/">Introduction to Probability</a> by Blitzstein and Hwang, the course's book, free online</li>
+        <li><a href="https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/">MIT 18.650 Statistics for Applications</a>, free lectures</li>
+        <li><a href="https://seeing-theory.brown.edu/">Seeing Theory</a>, free visual explanations for building intuition</li>
+        <li><cite>Fifty Challenging Problems in Probability</cite> by Frederick Mosteller, a short, cheap classic</li>
+        <li><cite>All of Statistics</cite> by Larry Wasserman, a fast tour of statistics if you already know the maths</li>
+      </ul>
+      <details class="gate">
+        <summary><span class="gate-label">Ready to move on?</span> You flip a fair coin until you get two heads in a row. How many flips do you expect? Is the answer the same for heads then tails?</summary>
+        <div class="gate-answer">
+          <p>Let <i>E</i> be the expected number of flips. Split on how the start goes: tails first (probability ½) wastes 1 flip, heads then tails (¼) wastes 2, and heads then heads (¼) finishes in 2.</p>
+          <p><i>E</i> = ½(1 + <i>E</i>) + ¼(2 + <i>E</i>) + ¼(2), which gives <i>E</i> = <strong>6</strong>.</p>
+          <p>Heads then tails takes only <strong>4</strong> on average. Once you've thrown a head, a miss on HT is another head, which keeps your progress. A miss on HH throws it all away.</p>
+        </div>
+      </details>
+      <details class="gate">
+        <summary><span class="gate-label">And one more:</span> You test 20 strategies that have no real edge, at the 5% significance level. What's the chance at least one looks significant?</summary>
+        <div class="gate-answer">
+          <p>If the tests are independent, 1 − 0.95²⁰ ≈ <strong>64%</strong>. So finding a "significant" strategy after trying many says very little on its own. Firms are strict about this because it's how most false discoveries happen.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="stage" id="s3" aria-labelledby="s3-h">
+      <p class="stage-num" aria-hidden="true">3</p>
+      <h3 id="s3-h">Programming</h3>
+      <p class="stage-meta">About 3 to 6 months for the basics, then keep going throughout.</p>
+      <p>Everyone needs Python. C++ is where the routes split: it's essential for most developer jobs and optional for many researchers and traders.</p>
+      <ul class="checks">
+        <li data-r="2" data-t="2" data-d="2"><label><input type="checkbox" id="c-py"><span>Python with NumPy and pandas, including writing vectorised code instead of loops</span></label></li>
+        <li data-r="2" data-t="2" data-d="1"><label><input type="checkbox" id="c-sim"><span>Simulation: write your own Monte Carlo experiments to check answers you worked out by hand</span></label></li>
+        <li data-r="1" data-t="1" data-d="2"><label><input type="checkbox" id="c-dsa"><span>Data structures and algorithms: hash maps, heaps, graphs, dynamic programming and complexity</span></label></li>
+        <li data-r="2" data-t="1" data-d="2"><label><input type="checkbox" id="c-tools"><span>Daily tools: Git, the Linux shell, automated tests and SQL</span></label></li>
+        <li data-r="1" data-t="0" data-d="2"><label><input type="checkbox" id="c-cpp"><span>Modern C++: memory, RAII, templates and the standard library</span></label></li>
+        <li data-r="0" data-t="0" data-d="2"><label><input type="checkbox" id="c-sys"><span>How computers work: caches, processes, threads and networking</span></label></li>
+        <li data-r="0" data-t="0" data-d="1"><label><input type="checkbox" id="c-lat"><span>Low-latency habits: profiling, avoiding allocation and basic lock-free data structures</span></label></li>
+      </ul>
+      <h4>Where to learn it</h4>
+      <ul class="res">
+        <li><a href="https://wesmckinney.com/book/">Python for Data Analysis</a> by Wes McKinney, the creator of pandas, free online</li>
+        <li><a href="https://www.learncpp.com/">Learn C++</a>, a free, thorough tutorial</li>
+        <li><a href="https://missing.csail.mit.edu/">The Missing Semester</a>, MIT's free course on the shell, Git and other tools</li>
+        <li><a href="https://neetcode.io/">NeetCode</a>, an organised list of coding interview problems</li>
+        <li><cite>Computer Systems: A Programmer's Perspective</cite> by Bryant and O'Hallaron, for how machines really run your code</li>
+        <li><cite>Effective Modern C++</cite> by Scott Meyers, once you know the basics</li>
+      </ul>
+      <details class="gate">
+        <summary><span class="gate-label">Ready to move on?</span> Estimate π with a million random points and no Python loop. How much more data do you need to make the error 10 times smaller?</summary>
+        <div class="gate-answer">
+<pre><code>import numpy as np
+
+rng = np.random.default_rng()
+n = 1_000_000
+x, y = rng.random(n), rng.random(n)
+print(4 * np.mean(x**2 + y**2 &lt; 1))</code></pre>
+          <p>The fraction of points inside the quarter circle estimates π/4. The standard error is about 0.0016 at this size and shrinks with 1/√<i>n</i>, so 10 times the accuracy takes <strong>100 times</strong> the samples.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="stage" id="s4" aria-labelledby="s4-h">
+      <p class="stage-num" aria-hidden="true">4</p>
+      <h3 id="s4-h">Markets and models</h3>
+      <p class="stage-meta">About 3 to 6 months. Firms will teach you plenty of this on the job.</p>
+      <p>Many firms care more about how you think than what you already know about finance. You still need enough to speak the language, and to understand why noisy market data breaks methods that work elsewhere.</p>
+      <ul class="checks">
+        <li data-r="1" data-t="2" data-d="1"><label><input type="checkbox" id="f-micro"><span>How markets work: order books, bid-ask spreads, market makers and exchanges</span></label></li>
+        <li data-r="1" data-t="2" data-d="1"><label><input type="checkbox" id="f-inst"><span>What stocks, futures, options and bonds are, and how each one pays out</span></label></li>
+        <li data-r="1" data-t="2" data-d="0"><label><input type="checkbox" id="f-opt"><span>Options pricing: no-arbitrage, put-call parity, Black-Scholes and the Greeks</span></label></li>
+        <li data-r="1" data-t="0" data-d="0"><label><input type="checkbox" id="f-stoch"><span>Stochastic calculus: Brownian motion, Itô's lemma and risk-neutral pricing (core for derivatives roles at banks)</span></label></li>
+        <li data-r="2" data-t="1" data-d="0"><label><input type="checkbox" id="f-port"><span>Portfolios: risk, factor models, the Sharpe ratio and transaction costs</span></label></li>
+        <li data-r="2" data-t="0" data-d="1"><label><input type="checkbox" id="f-ml"><span>Machine learning: regularised regression, gradient-boosted trees and neural network basics</span></label></li>
+        <li data-r="2" data-t="1" data-d="1"><label><input type="checkbox" id="f-val"><span>Testing on time-ordered data: walk-forward validation and data leakage</span></label></li>
+      </ul>
+      <h4>Where to learn it</h4>
+      <ul class="res">
+        <li><a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">MIT 18.S096 Mathematics with Applications in Finance</a>, free lectures, some given by people from industry</li>
+        <li><a href="https://www.statlearning.com/">An Introduction to Statistical Learning</a>, a free book with Python labs</li>
+        <li><cite>Options, Futures, and Other Derivatives</cite> by John Hull, the standard reference</li>
+        <li><cite>Trading and Exchanges</cite> by Larry Harris, on how markets are built</li>
+        <li><cite>Active Portfolio Management</cite> by Grinold and Kahn, on how systematic portfolios are run</li>
+        <li><cite>Stochastic Calculus for Finance</cite> by Steven Shreve, if you're heading toward derivatives</li>
+      </ul>
+      <details class="gate">
+        <summary><span class="gate-label">Ready to move on?</span> A stock trades at 100. A one-year European call with strike 100 costs 10, and the continuously compounded rate is 5%. What should the put cost? If it trades at 6, how do you profit?</summary>
+        <div class="gate-answer">
+          <p>Put-call parity says <i>C</i> − <i>P</i> = <i>S</i> − <i>K</i>e<sup>−<i>rT</i></sup>, so <i>P</i> = 10 − 100 + 100e<sup>−0.05</sup> ≈ <strong>5.12</strong>.</p>
+          <p>At 6, the put is too expensive. Sell the put (+6), buy the call (−10), short the stock (+100) and lend 95.12 at 5% (−95.12). You collect about <strong>0.88</strong> today. In one year the loan pays back 100, which is exactly what you need: wherever the stock ends up, the call and put together let you buy a share at 100 and close the short, leaving nothing owed. This ignores costs and borrowing fees, which is why gaps like this rarely last in real markets.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="stage" id="s5" aria-labelledby="s5-h">
+      <p class="stage-num" aria-hidden="true">5</p>
+      <h3 id="s5-h">Proof of work</h3>
+      <p class="stage-meta">About 3 to 6 months, alongside the earlier stages.</p>
+      <p>This is your evidence that you can do the work, and it matters most if your school or degree won't open doors by itself. A few honest, well-tested projects beat a long list of tutorials. An impressive-looking return with no explanation will count against you.</p>
+      <ul class="checks">
+        <li data-r="2" data-t="2" data-d="2"><label><input type="checkbox" id="w-public"><span>Publish your work: a public repository that says what you asked, what you did, what you found and what failed</span></label></li>
+        <li data-r="2" data-t="1" data-d="0"><label><input type="checkbox" id="w-replicate"><span>Reproduce a published finding, such as momentum, with public data, then see if it survives realistic costs</span></label></li>
+        <li data-r="2" data-t="1" data-d="1"><label><input type="checkbox" id="w-backtest"><span>Build a backtester with tests that prove it can't see future data</span></label></li>
+        <li data-r="0" data-t="1" data-d="2"><label><input type="checkbox" id="w-book"><span>Write a limit order book and matching engine in C++, and publish its latency benchmarks</span></label></li>
+        <li data-r="1" data-t="2" data-d="1"><label><input type="checkbox" id="w-compete"><span>Enter a contest: IMC Prosperity, Kaggle or a datathon</span></label></li>
+        <li data-r="0" data-t="2" data-d="0"><label><input type="checkbox" id="w-games"><span>Play games where you bet on uncertain information: poker, Figgie or similar</span></label></li>
+        <li data-r="1" data-t="1" data-d="0"><label><input type="checkbox" id="w-puzzles"><span>Try the monthly Jane Street puzzle</span></label></li>
+        <li data-r="2" data-t="0" data-d="0"><label><input type="checkbox" id="w-research"><span>Do real research with a professor, ideally ending in a paper or thesis</span></label></li>
+      </ul>
+      <h4>Where to find it</h4>
+      <ul class="res">
+        <li><a href="https://prosperity.imc.com/">IMC Prosperity</a>, a trading contest run by the firm IMC</li>
+        <li><a href="https://www.kaggle.com/competitions">Kaggle competitions</a>, including some past market prediction contests</li>
+        <li><a href="https://www.figgie.com/">Figgie</a>, a card game Jane Street created to teach trading</li>
+        <li><a href="https://www.janestreet.com/puzzles/">Jane Street puzzles</a>, a new one each month</li>
+        <li><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html">Kenneth French Data Library</a>, free factor return data, good for reproducing studies</li>
+        <li><a href="https://fred.stlouisfed.org/">FRED</a>, free economic data from the St. Louis Fed</li>
+      </ul>
+      <details class="gate">
+        <summary><span class="gate-label">Ready to move on?</span> Your backtest shows a Sharpe ratio of 3 over ten years. Name four reasons it might be fake, and how you'd check each one.</summary>
+        <div class="gate-answer">
+          <ul>
+            <li><strong>Look-ahead bias.</strong> The strategy used data it wouldn't have had yet. Shift every input by one bar and see if the result collapses.</li>
+            <li><strong>Survivorship bias.</strong> The data leaves out companies that went bankrupt or were delisted. Test on a point-in-time universe that includes them.</li>
+            <li><strong>Unrealistic costs.</strong> It ignores spreads, fees and the market impact of your own trades. Rerun with realistic costs, then double them.</li>
+            <li><strong>Overfitting.</strong> You tried many versions and kept the best. Count your trials, and test once on data you've never touched.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <section class="stage" id="s6" aria-labelledby="s6-h">
+      <p class="stage-num" aria-hidden="true">6</p>
+      <h3 id="s6-h">Getting hired</h3>
+      <p class="stage-meta">About 2 to 4 months of focused prep before applications open.</p>
+      <p>The usual way in is an internship, which often turns into a full-time offer. Prepare early, because the best-known programs fill long before their summer starts.</p>
+      <ul class="checks">
+        <li data-r="2" data-t="2" data-d="2"><label><input type="checkbox" id="h-cv"><span>A one-page resume with grades, contest results and projects with real numbers</span></label></li>
+        <li data-r="2" data-t="2" data-d="1"><label><input type="checkbox" id="h-book"><span>Work through a full interview book, then practise explaining your solutions aloud</span></label></li>
+        <li data-r="1" data-t="1" data-d="2"><label><input type="checkbox" id="h-oa"><span>Practise timed online coding assessments</span></label></li>
+        <li data-r="0" data-t="2" data-d="0"><label><input type="checkbox" id="h-speed"><span>Build arithmetic speed under pressure; a Zetamac score of 40 or more is a commonly quoted target</span></label></li>
+        <li data-r="0" data-t="2" data-d="0"><label><input type="checkbox" id="h-mm"><span>Practise market-making games with a friend until updating your quotes feels natural</span></label></li>
+        <li data-r="0" data-t="0" data-d="2"><label><input type="checkbox" id="h-sys"><span>Prepare for deep questions on C++, operating systems and system design</span></label></li>
+        <li data-r="2" data-t="1" data-d="1"><label><input type="checkbox" id="h-story"><span>Be able to explain one project end to end, including what went wrong</span></label></li>
+        <li data-r="2" data-t="2" data-d="2"><label><input type="checkbox" id="h-list"><span>List 30 or more employers across top firms, mid-size firms and banks, and track each one's opening date</span></label></li>
+      </ul>
+
+      <h4>When to apply</h4>
+      <p>Dates vary by firm and keep moving earlier, so check each careers page from the spring. For a summer internship, a recent cycle looked roughly like this:</p>
+      <ol class="calendar">
+        <li><b>Spring, the year before</b> Some top firms open applications. Finish your resume.</li>
+        <li><b>July and August</b> Most remaining firms have opened. Apply straight away, since many review applications as they come in.</li>
+        <li><b>Summer to autumn</b> Online tests, phone screens and final rounds.</li>
+        <li><b>October to November</b> Many trading firms make their offers.</li>
+        <li><b>Winter</b> Hedge funds and smaller firms are still hiring. Keep applying.</li>
+      </ol>
+
+      <h4>Where to practise</h4>
+      <ul class="res">
+        <li><cite>A Practical Guide to Quantitative Finance Interviews</cite> by Xinfeng Zhou, known as the "green book"</li>
+        <li><cite>Heard on the Street</cite> by Timothy Crack, a long-running question collection</li>
+        <li><cite>Quant Job Interview Questions and Answers</cite> by Joshi, Denson and Downes, mainly for derivatives roles</li>
+        <li><a href="https://openquant.co/">OpenQuant</a> and <a href="https://www.quantguide.io/">QuantGuide</a>, online question banks</li>
+        <li><a href="https://brainstellar.com/">Brainstellar</a>, free puzzles sorted by difficulty</li>
+      </ul>
+      <details class="gate">
+        <summary><span class="gate-label">Ready to apply?</span> "Make me a market on the sum of two dice." Then: "The first die is a 6. Where's your market now?"</summary>
+        <div class="gate-answer">
+          <p>The sum averages 7 with a standard deviation of about 2.4, so a quote such as <strong>6.5 bid, 7.5 offered</strong> is sensible: you'll buy at 6.5 or sell at 7.5, and earn the spread if orders come from both sides.</p>
+          <p>Given a 6, the sum runs from 7 to 12 and averages 9.5, with a standard deviation of about 1.7. Move your quote to around <strong>9 bid, 10 offered</strong>. The interviewer is watching how quickly you update, and how you react when someone keeps trading against you. That's a hint they may know something you don't, so widen your quote and move it.</p>
+        </div>
+      </details>
+    </section>
+  </div>
+</div>
+
+<section id="timing" class="band" aria-labelledby="timing-h">
+  <h2 id="timing-h">How long it takes from where you are</h2>
+  <p class="intro">These are rough estimates for a realistic attempt, assuming steady work. They aren't promises.</p>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Timelines by starting point">
+  <table class="starts">
+    <thead><tr><th scope="col">Starting point</th><th scope="col">Rough time</th><th scope="col">Best first move</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">High school</th><td>Your degree, 4 to 5 years</td><td>Choose a maths, statistics, physics or computer science program. Try maths contests and learn Python.</td></tr>
+      <tr><th scope="row">Early undergrad</th><td>2 to 3 years to an internship</td><td>Load up on probability and statistics courses, and aim to apply for internships from your second or third year.</td></tr>
+      <tr><th scope="row">Final-year student</th><td>6 to 18 months</td><td>Go straight to stages 2 and 6. Apply for new-grad roles now, and consider a master's if you need more time.</td></tr>
+      <tr><th scope="row">Working software developer</th><td>6 to 12 months for developer roles, longer for trading or research</td><td>Start with C++ and low-latency skills for the developer route. Most moves into research go through a graduate degree.</td></tr>
+      <tr><th scope="row">Career changer without a technical background</th><td>2 to 4 years</td><td>Start with stages 1 to 3, then look at a master's or a nearby role such as risk or data analysis.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="honest" class="band plain" aria-labelledby="honest-h">
+  <h2 id="honest-h">What to know before you commit</h2>
+  <div class="columns">
+    <div>
+      <h3>If you're not at a well-known school</h3>
+      <p>School name matters, especially for research roles, and top firms get far more applicants than they have seats. It isn't the only way through.</p>
+      <ul>
+        <li><strong>Apply anyway.</strong> Trading and developer roles often rely on online tests and interviews, so strong candidates can get noticed by doing well on them.</li>
+        <li><strong>Earn a signal.</strong> Contest placements and rigorous public projects are hard to fake and don't depend on your school.</li>
+        <li><strong>Consider a master's.</strong> Programs such as <a href="https://mfe.baruch.cuny.edu/">Baruch's MFE</a>, <a href="https://www.cmu.edu/mscf/">Carnegie Mellon's MSCF</a> and <a href="https://www.mmf.utoronto.ca/">Toronto's MMF</a> recruit heavily into the industry, but they're expensive and competitive. Compare them on the <a href="https://quantnet.com/mfe-programs-rankings/">QuantNet rankings</a>, and look closely at where graduates end up.</li>
+        <li><strong>Enter through a nearby door.</strong> Software jobs, or risk and model validation at a bank, build relevant experience and pay well in their own right.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Pay and the trade-offs</h3>
+      <p>Reported first-year pay at top US firms is <a href="https://www.tradermath.org/salaries/quant-researcher">very high</a>, roughly US$200,000 to US$450,000 including bonus, with some firms above that. Many of these figures are self-reported or estimated, and they mostly describe a small number of elite firms. Banks, smaller firms and jobs outside the main US hubs usually pay less.</p>
+      <p>A large share of that pay is often a bonus tied to results, and teams can be cut when they stop making money. Hours are often long, and many ideas fail. Contracts may also include non-competes that limit where you can go next.</p>
+      <h3>Common mistakes</h3>
+      <ul>
+        <li>Starting with day trading or a trading bot before you can test one honestly. Live profits over a few months prove little, and losing real money teaches you less than a careful study would.</li>
+        <li>Paying for expensive bootcamps or certificates. Firms hire on interview performance and evidence of your skills.</li>
+        <li>Collecting courses instead of solving problems. If you can't solve the practice problems, watching another lecture won't fix it.</li>
+        <li>Only applying to the five most famous firms, then stopping when they say no.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <p>Last checked November 2026. Hiring dates and pay change every year, so confirm them with each firm. This is general career information from public sources, and it isn't investment advice or a guarantee of a job.</p>
+  <p>Found a mistake or a dead link? <a href="https://github.com/ZohaibKhawar/quant-roadmap/issues">Report it on GitHub</a>.</p>
+  <p id="reset-wrap" hidden><button type="button" id="reset" class="button quiet">Clear my progress</button></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
